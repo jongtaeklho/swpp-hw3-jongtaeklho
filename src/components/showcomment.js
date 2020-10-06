@@ -5,8 +5,16 @@ export default class Showcomment extends Component{
     buttonhandler()
     {
         if(this.props.cur_id===this.props.author_id)
-        return [<button id='edit-comment-button'>edit</button>,
-     <button id='delete-comment-button'>delete</button>]
+        return [<button id='edit-comment-button' onClick={
+            (ev)=>{
+                ev.preventDefault();  
+                this.props.clicked();
+                  }
+        }>edit</button>,
+     <button id='delete-comment-button' onClick={(ev)=>{
+         ev.preventDefault();
+         this.props.deleteclicked();
+     }}>delete</button>]
     }
     
     render()

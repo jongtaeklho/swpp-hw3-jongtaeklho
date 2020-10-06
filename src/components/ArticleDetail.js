@@ -2,8 +2,9 @@ import React,{Component} from'react';
 import * as actionCreators from '../actions/index';
 import {connect} from'react-redux';
 import Showcomment from './showcomment';
-import {NavLink} from'react-router-dom';
+import {NavLink,Redirect} from'react-router-dom';
 class ArticleDetail extends Component{
+   
     componentDidMount()
     {
         this.props.comment();
@@ -11,6 +12,7 @@ class ArticleDetail extends Component{
     state={
        
         comment:'',
+       
 
     }
     confirmbuttonhandler(article_id,author_id)
@@ -26,8 +28,14 @@ class ArticleDetail extends Component{
     articlebuttonhandler(cur_idx,author_id)
     {
         if(cur_idx===author_id)
-            return [<p><button id='edit-article-button'>edit article</button></p>,
-        <p><button id='delete-article-button'>delete article</button></p>]
+            return [<NavLink to={this.props.match.params.id+'/edit'}><p><button id='edit-article-button'
+            onClick={(ev)=>{
+                this.props.getdetailarticle(Number(this.props.match.params.id))
+            }}>edit article</button></p></NavLink>,
+            <NavLink to='/articles'>
+        <p><button id='delete-article-button' onClick={()=>{
+            this.props.deletearticle(Number(this.props.match.params.id));
+        }}>delete article</button></p></NavLink>]
            
     }
 
@@ -43,11 +51,13 @@ class ArticleDetail extends Component{
         this.props.articles.map((el)=>{
             if(el.id===article_idx)
             {
+                
                 author_id=el.author_id;
                 title=el.title;
                 content=el.content;
             }
         })
+       
         this.props.user.map((el)=>{
             if(el.id===author_id)
              author=el.name;
@@ -66,9 +76,17 @@ class ArticleDetail extends Component{
 
         const comment_list=list.map((el)=>{
             return <Showcomment name={author_list[String(el.author_id)]} comment={el.content}
-            author_id={el.author_id} cur_id={cur_idx}></Showcomment>
+            author_id={el.author_id} cur_id={cur_idx} clicked={()=>{
+                let modified=prompt("edit",el.content)
+                if(modified!='')
+                {
+                    this.props.editcomment(el.id,modified);
+                }
+            }}   deleteclicked={()=>{
+                this.props.deletecomment(el.id);
+            }}></Showcomment>
         })
-        
+      
         return(
             <div>
                 <h1 id='article-author'>{author}</h1>
@@ -86,6 +104,11 @@ class ArticleDetail extends Component{
                         back
                     </button></p>
                 </NavLink>
+                <p><button id='logout-button' onClick={()=>{
+                    this.props.logout();
+                    this.props.history.push('/login')
+                }}>log out</button></p>
+
             </div>
         );
     }
@@ -98,7 +121,22 @@ const mapDispatchToProps=(dispatch)=>{
         confrimcomment:(article_id,author_id,content)=>{
             dispatch(actionCreators.createnewcomment(article_id,author_id,content))
 
-        }
+        },
+        editcomment:(id,content)=>{
+            dispatch(actionCreators.editcomment(id,content));
+        },
+        deletecomment:(id)=>{
+            dispatch(actionCreators.deletecomment(id));
+        },
+        getdetailarticle:(id)=>{
+            dispatch(actionCreators.getdetailarticle(id))
+    },
+    logout:()=>{
+        dispatch(actionCreators.logout());
+    },
+    deletearticle:(id)=>{
+        dispatch(actionCreators.deletearticle(id));
+    }
     }
 }
 const mapStateToProps=(state)=>{

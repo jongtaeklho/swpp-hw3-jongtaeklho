@@ -32,7 +32,7 @@ class Login extends Component{
       if(pos===true)
         this.props.history.push('/articles');
       else 
-        alert('adfasdffads');
+        alert('Email or password is wrong');
    }
    
     render()

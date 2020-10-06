@@ -1,5 +1,5 @@
 import React,{Component} from'react';
-import {NavLink} from'react-router-dom';
+import {NavLink, Redirect} from'react-router-dom';
 import CreateDetail from './CreateDetail';
 import {connect} from'react-redux';
 import * as actionCreators from '../actions/articles';
@@ -8,7 +8,8 @@ class Create extends Component{
         title:'',
         content:'',
        
-        mode:'write'
+        mode:'write',
+     
     }
     clickhandler=()=>{
 
@@ -46,9 +47,7 @@ class Create extends Component{
                         id=el.id;
                 })
                 this.props.createarticle(this.state.title,this.state.content,id);
-                let lng=this.props.articles.length;
-                let idx=this.props.articles[lng-1].id+1;
-                this.props.history.push('/articles/'+idx);
+                this.setState({mode:'create'});
             }} >create</button></p>);
         else
             return (<p><button id='confirm-create-article-button' disabled>create</button></p>)
@@ -57,8 +56,14 @@ class Create extends Component{
 
     render()
     {
-        
-        
+        if(this.state.mode==='create')
+            {
+                let lng=this.props.articles.length;
+                let idx=this.props.articles[lng-1].id;
+              
+                return <Redirect to={'/articles/'+idx}>;</Redirect>
+            }
+          
         return(
             <div className='Create'>
                 {this.clickhandler()}
@@ -77,6 +82,11 @@ class Create extends Component{
                     this.setState({mode:'write'})
                     this.clickhandler();
                 }}>write</button></p>
+                  <p><button id='logout-button' onClick={()=>{
+                    this.props.logout();
+                    this.props.history.push('/login')
+                }}>log out</button></p>
+
             </div>
         );
     }
@@ -90,7 +100,11 @@ const mapDispatchToState=(dispatch)=>{
     return{
         createarticle:(title,content,id)=>{
             dispatch(actionCreators.createnewarticle(title,content,id))
+        },
+        logout:()=>{
+            dispatch(actionCreators.logout());
         }
+        
     }
 }
 export default connect(mapStateToProps,mapDispatchToState)(Create);

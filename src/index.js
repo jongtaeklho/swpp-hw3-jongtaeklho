@@ -9,16 +9,14 @@ import {Provider} from 'react-redux';
 import articlereducer from './actions/reducers/articles';
 import { composeWithDevTools } from 'redux-devtools-extension/logOnlyInProduction';
 
-const composeEnhancers = composeWithDevTools({
-  // options like actionSanitizer, stateSanitizer
-});
+
 const rootReducer=combineReducers({
     at:articlereducer
 })
 
-const store=createStore(rootReducer,composeEnhancers(
+const store=createStore(rootReducer,
     applyMiddleware(thunk)
-  ))
+  )
 
 ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
 
