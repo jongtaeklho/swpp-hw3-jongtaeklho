@@ -12,20 +12,25 @@ import ArticleEdit from './components/ArticleEdit';
 
 class App extends Component {
   render(){
-   
+    let re=null;
+    this.props.user.map((el)=>{
+      if(el.logged_in===true)
+        re= <Redirect exact from='/login' exact to='/articles'></Redirect>
+    })
+    
    
   return (
     <BrowserRouter>
     <div className="App">
-      <Switch>
+    <Switch>
       <Route  exact path='/login' exact component={Login}></Route>
       <Route  path='/articles' exact component={ArticleList}></Route>
       <Route  path='/articles/create' component={Create}></Route>
       <Route exact path='/articles/:id' exact component={ArticleDetail}></Route>
       <Route exact path='/articles/:id/edit' exact component={ArticleEdit}></Route>
-     </Switch>      
+     </Switch>
      <Redirect exact from='/' exact to='/login'></Redirect>
-    
+    {re}
     </div>
     </BrowserRouter>
   );
@@ -35,4 +40,6 @@ class App extends Component {
 
 
 
-export default App;
+export default connect(function(state){
+  return{user:state.at.user}
+},null)(App);

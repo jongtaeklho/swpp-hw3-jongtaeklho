@@ -4,15 +4,10 @@ import { LOGIN, START } from '../actions/actionTypes';
 import axios from'axios';
 import * as actionCreators from'../actions/index';
 import * as actionTypes from'../actions/actionTypes';
-
+import {Redirect} from 'react-router-dom';
 class Login extends Component{
     componentDidMount(){
-        this.props.user.map((el)=>{
-        
-            if(el.logged_in===true)
-                this.props.history.push('/articles')
-        })
-
+       
         this.props.onStart();
        
     } 
@@ -30,17 +25,29 @@ class Login extends Component{
           }
       })
       if(pos===true)
-        this.props.history.push('/articles');
+      {  this.props.history.push('/articles');}
       else 
         alert('Email or password is wrong');
    }
-   
+   tmp()
+   {
+       let pos=false;
+    this.props.user.map((el)=>{
+        
+        if(el.logged_in===true)
+            pos=true;
+    })
+    if(pos===true)
+        return <Redirect to='/aritlces'></Redirect>
+   }
     render()
     {
+       
            
     
         return(
             <div>
+                {this.tmp()}
                 <h1>LOGIN PAGE</h1>
                 <h2>email</h2>
                 <p><input type='text' placeholder='email' id='email-input' value={this.state.email} 

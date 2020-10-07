@@ -8,11 +8,20 @@ class ArticleList extends Component{
     componentDidMount(){
        
         this.props.getarticles();
-
+        this.props.onStart();
     }
    
     render()
     {
+        let pos=false;
+        this.props.user.map((el)=>{
+            console.log(el);
+            if(el.logged_in===true)
+                pos=true;
+        })
+        if(pos===false)
+            this.props.history.push('/login')
+
         let list;
         
         list=this.props.articles.map((el)=>{
@@ -48,12 +57,15 @@ const mapDispatchToProps=(dispatch)=>{
         },
         logout:()=>{
             dispatch(actionCreators.logout());
-        }
+        },
+        onStart:()=>{
+            dispatch(actionCreators.getstart());
+        },
     }
 }
 const mapStatetoProps=(state)=>{
     let articles=state.at.articles;
-   return {articles:articles}
+   return {articles:articles,user:state.at.user}
 }
 
 
