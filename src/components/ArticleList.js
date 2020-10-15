@@ -13,15 +13,7 @@ class ArticleList extends Component{
    
     render()
     {
-        let pos=false;
-        this.props.user.map((el)=>{
-            console.log(el);
-            if(el.logged_in===true)
-                pos=true;
-        })
-        if(pos===false)
-            this.props.history.push('/login')
-
+      
         let list;
         
         list=this.props.articles.map((el)=>{
@@ -34,7 +26,7 @@ class ArticleList extends Component{
         
         return(
             
-            <div>
+            <div className='articlelist'>
                 {list}
                 <NavLink to='/articles/create'>
                 <p><button id='create-article-button'>Create</button></p>

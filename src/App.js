@@ -13,11 +13,14 @@ import ArticleEdit from './components/ArticleEdit';
 class App extends Component {
   render(){
     let re=null;
+    let cntloggedin=0;
     this.props.user.map((el)=>{
       if(el.logged_in===true)
-        re= <Redirect exact from='/login' exact to='/articles'></Redirect>
-    })
+     { re= <Redirect className='redirect' exact from='/login' exact to='/articles'></Redirect>;
     
+  }
+    })
+ 
    
   return (
     <BrowserRouter>
@@ -29,7 +32,7 @@ class App extends Component {
       <Route exact path='/articles/:id' exact component={ArticleDetail}></Route>
       <Route exact path='/articles/:id/edit' exact component={ArticleEdit}></Route>
      </Switch>
-     <Redirect exact from='/' exact to='/login'></Redirect>
+     <Redirect className='redirect' exact from='/' exact to='/login'></Redirect>
     {re}
     </div>
     </BrowserRouter>

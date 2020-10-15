@@ -40,19 +40,23 @@ class Create extends Component{
     {
         if(this.state.title!==''&&this.state.content!=='')
             return     ( <p><button id='confirm-create-article-button' onClick={(ev)=>{
-                ev.preventDefault();
+               
                 let id=-1;
                 this.props.user.map((el)=>{
                     if(el.logged_in===true)
                         id=el.id;
                 })
-                this.props.createarticle(this.state.title,this.state.content,id);
                 this.setState({mode:'create'});
+                this.props.createarticle(this.state.title,this.state.content,id);
+                
             }} >create</button></p>);
         else
             return (<p><button id='confirm-create-article-button' disabled>create</button></p>)
     }
-
+    logouthander()
+    {
+        
+    }
 
     render()
     {
@@ -78,7 +82,6 @@ class Create extends Component{
                 }}>preview</button></p>
                 <p><button id='write-tab-button' onClick={(ev)=>
                 {
-                    ev.preventDefault();
                     this.setState({mode:'write'})
                     this.clickhandler();
                 }}>write</button></p>

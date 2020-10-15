@@ -103,7 +103,7 @@ class ArticleEdit extends Component{
     }
  
         return(
-            <div>
+            <div className='articleedit'>
                 {this.clickhandler()}
                <p><button id='back-edit-article-button' onClick={()=>{
                    this.backbutton();
@@ -111,13 +111,13 @@ class ArticleEdit extends Component{
              
                 {this.buttonhandler()}
                 <p><button id='preview-tab-button' onClick={(ev)=>{
-                    ev.preventDefault();
+                  
                     this.setState({mode:'preview'})
                     this.clickhandler();
                 }}>preview</button></p>
                 <p><button id='write-tab-button' onClick={(ev)=>
                 {
-                    ev.preventDefault();
+                 
                     this.setState({mode:'write'})
                     this.clickhandler();
                 }}>write</button></p>

@@ -19,7 +19,7 @@ class ArticleDetail extends Component{
     {
         if(this.state.comment==='') return <button id='confirm-create-comment-button' disabled>confirm</button>
         else return <p><button onClick={(ev)=>
-        {    ev.preventDefault();
+        {   
             this.props.confrimcomment(article_id,author_id,this.state.comment);
             
         }
@@ -88,13 +88,13 @@ class ArticleDetail extends Component{
         })
       
         return(
-            <div>
+            <div className='articledetail'>
                 <h1 id='article-author'>{author}</h1>
                 <h3 id='article-title'>{title}</h3>
                 <h3 id='article-content'>{content}</h3>
                 {comment_list}                
                 <p><input type='text' id='new-comment-content-input' placeholder='comments...' 
-                value={this.state.content} onChange={(ev)=>{
+                value={this.state.comment} onChange={(ev)=>{
                     this.setState({comment:ev.target.value})
                 }}></input></p>,
                 {this.confirmbuttonhandler(article_idx,cur_idx)}

@@ -5,6 +5,7 @@ import axios from'axios';
 import * as actionCreators from'../actions/index';
 import * as actionTypes from'../actions/actionTypes';
 import {Redirect} from 'react-router-dom';
+
 class Login extends Component{
     componentDidMount(){
        
@@ -29,7 +30,7 @@ class Login extends Component{
       else 
         alert('Email or password is wrong');
    }
-   tmp()
+  /* tmp()
    {
        let pos=false;
     this.props.user.map((el)=>{
@@ -38,16 +39,16 @@ class Login extends Component{
             pos=true;
     })
     if(pos===true)
-        return <Redirect to='/aritlces'></Redirect>
-   }
+        return <Redirect to='/aritlces'></Redirect>{this.tmp()}
+   }*/
     render()
     {
        
            
     
         return(
-            <div>
-                {this.tmp()}
+            <div className="login">
+                
                 <h1>LOGIN PAGE</h1>
                 <h2>email</h2>
                 <p><input type='text' placeholder='email' id='email-input' value={this.state.email} 
@@ -60,7 +61,7 @@ class Login extends Component{
                     this.setState({pw:ev.target.value})
                 }}></input></p>
                 <p><button id='login-button' onClick={(ev)=>{
-                    ev.preventDefault();
+                   
                     this.props.onClick(this.state.email,this.state.pw)
                     this.logginhandler();
                 }}>Log In</button></p>
